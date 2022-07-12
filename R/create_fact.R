@@ -86,6 +86,12 @@ fact <- dplyr::tbl(con,
              )) %>%
   inner_join(age,
              by = c("CALC_AGE" = "AGE")) %>%
+  #pull forward last observation of PATIENT_LSOA_CODE to account for null data
+  mutate(
+    PATIENT_LSOA_CODE = sql(
+      "last_value(PATIENT_LSOA_CODE ignore nulls) over (partition by IDENTIFIED_PATIENT_ID order by YEAR_MONTH rows between unbounded preceding and current row)"
+    )
+  ) %>%
   left_join(imd,
             by = c("PATIENT_LSOA_CODE" = "LSOA11")) %>%
   #regular exclusions
