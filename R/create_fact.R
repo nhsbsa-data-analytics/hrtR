@@ -130,7 +130,7 @@ fact <- dplyr::tbl(con,
   #pull forward last observation of PATIENT_LSOA_CODE to account for null data
   mutate(
     PATIENT_LSOA_CODE = sql(
-      "last_value(PATIENT_LSOA_CODE ignore nulls) over (partition by PATIENT_ID order by YEAR_MONTH rows between unbounded preceding and current row)"
+      "last_value(PATIENT_LSOA_CODE ignore nulls) over (partition by PATIENT_ID order by YEAR_MONTH, PATIENT_LSOA_CODE NULLS last rows between unbounded preceding and current row)"
     )
   ) %>%
   left_join(imd,
@@ -170,6 +170,7 @@ fact <- dplyr::tbl(con,
     PATIENT_ID,
     PATIENT_IDENTIFIED,
     IMD_DECILE,
+    IMD_RANK,
     PDS_GENDER,
     DALL_5YR_BAND,
     ITEM_CALC_PAY_QTY,
@@ -200,6 +201,7 @@ fact <- dplyr::tbl(con,
     PATIENT_ID,
     PATIENT_IDENTIFIED,
     IMD_DECILE,
+    IMD_RANK,
     PDS_GENDER,
     DALL_5YR_BAND
   ) %>%
