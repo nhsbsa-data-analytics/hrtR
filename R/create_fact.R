@@ -22,7 +22,7 @@
 
 create_fact <- function(
   con,
-  from = 2015L,
+  from = 201504L,
   to = dplyr::sql(
   "MGMT.PKG_PUBLIC_DWH_FUNCTIONS.f_get_latest_period('EPACT2')"
   )) {
@@ -89,7 +89,7 @@ fact <- dplyr::tbl(con,
   #pull forward last observation of PATIENT_LSOA_CODE to account for null data
   mutate(
     PATIENT_LSOA_CODE = sql(
-      "last_value(PATIENT_LSOA_CODE ignore nulls) over (partition by IDENTIFIED_PATIENT_ID order by YEAR_MONTH rows between unbounded preceding and current row)"
+      "last_value(PATIENT_LSOA_CODE ignore nulls) over (partition by PATIENT_ID order by YEAR_MONTH rows between unbounded preceding and current row)"
     )
   ) %>%
   left_join(imd,
@@ -122,7 +122,7 @@ fact <- dplyr::tbl(con,
     CHEM_SUB_NAME,
     CHEM_SUB_CODE,
     UNIT_OF_MEASURE,
-    IDENTIFIED_PATIENT_ID,
+    PATIENT_ID,
     PATIENT_IDENTIFIED,
     IMD_DECILE,
     PDS_GENDER,
@@ -148,7 +148,7 @@ fact <- dplyr::tbl(con,
     CHEM_SUB_NAME,
     CHEM_SUB_CODE,
     UNIT_OF_MEASURE,
-    IDENTIFIED_PATIENT_ID,
+    PATIENT_ID,
     PATIENT_IDENTIFIED,
     IMD_DECILE,
     PDS_GENDER,
