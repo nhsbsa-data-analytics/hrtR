@@ -39,7 +39,46 @@ tdim <- dplyr::tbl(con,
 porg <- dplyr::tbl(con,
                    from = dbplyr::in_schema("DIM", "CUR_EP_LEVEL_5_FLAT_DIM")) %>%
   filter(CUR_CTRY_OU == 1) %>%
-  select(LVL_5_OUPDT, LVL_5_OU)
+  mutate(
+    STP_NAME = case_when(
+      CUR_AREA_LTST_CLSD == "Y" ~ "UNKNOWN STP",
+      CUR_AREA_TEAM_LTST_NM %in% c(
+        'ENGLISH/WELSH DUMMY DENTAL',
+        'UNIDENTIFIED DEPUTISING SERVICES',
+        'UNIDENTIFIED DOCTORS'
+      ) ~ "UNKNOWN STP",
+      TRUE ~ CUR_FRMTTD_AREA_TEAM_LTST_NM
+    ),
+    STP_CODE = case_when(
+      CUR_AREA_LTST_CLSD == "Y" ~ "-",
+      CUR_AREA_TEAM_LTST_NM %in% c(
+        'ENGLISH/WELSH DUMMY DENTAL',
+        'UNIDENTIFIED DEPUTISING SERVICES',
+        'UNIDENTIFIED DOCTORS'
+      ) ~ "-",
+      TRUE ~ CUR_AREA_TEAM_LTST_ALT_CDE
+    ),
+    REGION_NAME = case_when(
+      CUR_REGION_LTST_CLSD == "Y" ~ "UNKNOWN REGION",
+      CUR_REGION_LTST_NM %in% c(
+        'ENGLISH/WELSH DUMMY DENTAL',
+        'UNIDENTIFIED DEPUTISING SERVICES',
+        'UNIDENTIFIED DOCTORS'
+      ) ~ "UNKNOWN REGION",
+      TRUE ~ CUR_FRMTTD_REGION_LTST_NM
+    ),
+    REGION_CODE = case_when(
+      CUR_REGION_LTST_CLSD == "Y" ~ "-",
+      CUR_REGION_LTST_NM %in% c(
+        'ENGLISH/WELSH DUMMY DENTAL',
+        'UNIDENTIFIED DEPUTISING SERVICES',
+        'UNIDENTIFIED DOCTORS'
+      ) ~ "-",
+      TRUE ~ CUR_REGION_LTST_ALT_CDE
+    )
+  ) %>%
+  select(LVL_5_OUPDT, LVL_5_OU, STP_NAME, STP_CODE, REGION_NAME, REGION_CODE) %>%
+  collect()
 
 # Build drug ---------------------------------------------------------
 drug <- dplyr::tbl(con,
@@ -115,6 +154,10 @@ fact <- dplyr::tbl(con,
   select(
     FINANCIAL_YEAR,
     YEAR_MONTH,
+    REGION_NAME,
+    REGION_CODE,
+    STP_NAME,
+    STP_CODE,
     SECTION_NAME,
     SECTION_CODE,
     PARAGRAPH_NAME,
@@ -141,6 +184,10 @@ fact <- dplyr::tbl(con,
   group_by(
     FINANCIAL_YEAR,
     YEAR_MONTH,
+    REGION_NAME,
+    REGION_CODE,
+    STP_NAME,
+    STP_CODE,
     SECTION_NAME,
     SECTION_CODE,
     PARAGRAPH_NAME,
@@ -157,9 +204,9 @@ fact <- dplyr::tbl(con,
   summarise(
     TOTAL_QTY = sum(ITEM_CALC_PAY_QTY, na.rm = T),
     ITEM_COUNT = sum(ITEM_COUNT, na.rm = T),
-    ITEM_PAY_DR_NIC = sum(ITEM_PAY_DR_NIC, na.rm = T)
-  ) %>%
-  ungroup()
+    ITEM_PAY_DR_NIC = sum(ITEM_PAY_DR_NIC, na.rm = T),
+    .groups = "drop"
+  )
 
 # drop time dimension if exists
 exists <- con %>%
