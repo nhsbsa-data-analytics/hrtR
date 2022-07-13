@@ -77,8 +77,7 @@ porg <- dplyr::tbl(con,
       TRUE ~ CUR_REGION_LTST_ALT_CDE
     )
   ) %>%
-  select(LVL_5_OUPDT, LVL_5_OU, STP_NAME, STP_CODE, REGION_NAME, REGION_CODE) %>%
-  collect()
+  select(LVL_5_OUPDT, LVL_5_OU, STP_NAME, STP_CODE, REGION_NAME, REGION_CODE)
 
 # Build drug ---------------------------------------------------------
 drug <- dplyr::tbl(con,
@@ -108,7 +107,10 @@ age <- dplyr::tbl(con,
 imd <- dplyr::tbl(con,
                   from = dbplyr::in_schema("GRALI", "ONS_NSPL_MAY_22")) %>%
   select(LSOA11,
-         IMD_DECILE)
+         IMD_DECILE,
+         IMD_RANK) %>%
+  #using distinct to remove duplicate rows
+  distinct()
 
 # Build fact ---------------------------------------------------------
 fact <- dplyr::tbl(con,
