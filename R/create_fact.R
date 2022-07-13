@@ -115,6 +115,57 @@ imd <- dplyr::tbl(con,
 # Build fact ---------------------------------------------------------
 fact <- dplyr::tbl(con,
                    from = dbplyr::in_schema("AML", "PX_FORM_ITEM_ELEM_COMB_FACT_AV")) %>%
+  #regular exclusions
+  filter(
+    PAY_DA_END == "N",
+    # excludes disallowed items
+    PAY_ND_END == "N",
+    # excludes not dispensed items
+    PAY_RB_END == "N",
+    # excludes referred back items
+    CD_REQ == "N",
+    # excludes controlled drug requisitions
+    OOHC_IND == 0L,
+    # excludes out of hours dispensing
+    PRIVATE_IND == 0L,
+    # excludes private dispensers
+    IGNORE_FLAG == "N",
+    # excludes LDP dummy forms
+    PRESC_TYPE_PRNT %NOT IN% c(8L, 54L)
+  ) %>%
+  select(
+    YEAR_MONTH,
+    PRESC_TYPE_PRNT,
+    PRESC_ID_PRNT,
+    CALC_PREC_DRUG_RECORD_ID,
+    CALC_AGE,
+    PATIENT_LSOA_CODE,
+    PATIENT_ID,
+    PATIENT_IDENTIFIED,
+    PDS_GENDER,
+    ITEM_CALC_PAY_QTY,
+    ITEM_COUNT,
+    ITEM_PAY_DR_NIC
+  ) %>%
+  group_by(
+    YEAR_MONTH,
+    PRESC_TYPE_PRNT,
+    PRESC_ID_PRNT,
+    CALC_PREC_DRUG_RECORD_ID,
+    CALC_AGE,
+    PATIENT_LSOA_CODE,
+    PATIENT_ID,
+    PATIENT_IDENTIFIED,
+    PDS_GENDER
+  ) %>%
+  summarise(
+    TOTAL_QTY = sum(ITEM_CALC_PAY_QTY, na.rm = T),
+    ITEM_COUNT = sum(ITEM_COUNT, na.rm = T),
+    ITEM_PAY_DR_NIC = sum(ITEM_PAY_DR_NIC, na.rm = T),
+    .groups = "drop"
+  )
+
+query <- fact %>%
   inner_join(tdim,
              by = c("YEAR_MONTH" = "YEAR_MONTH")) %>%
   inner_join(porg,
@@ -135,24 +186,6 @@ fact <- dplyr::tbl(con,
   ) %>%
   left_join(imd,
             by = c("PATIENT_LSOA_CODE" = "LSOA11")) %>%
-  #regular exclusions
-  filter(
-    PAY_DA_END == "N",
-    # excludes disallowed items
-    PAY_ND_END == "N",
-    # excludes not dispensed items
-    PAY_RB_END == "N",
-    # excludes referred back items
-    CD_REQ == "N",
-    # excludes controlled drug requisitions
-    OOHC_IND == 0L,
-    # excludes out of hours dispensing
-    PRIVATE_IND == 0L,
-    # excludes private dispensers
-    IGNORE_FLAG == "N",
-    # excludes LDP dummy forms
-    PRESC_TYPE_PRNT %NOT IN% c(8L, 54L)
-  ) %>%
   select(
     FINANCIAL_YEAR,
     YEAR_MONTH,
@@ -173,7 +206,7 @@ fact <- dplyr::tbl(con,
     IMD_RANK,
     PDS_GENDER,
     DALL_5YR_BAND,
-    ITEM_CALC_PAY_QTY,
+    TOTAL_QTY,
     ITEM_COUNT,
     ITEM_PAY_DR_NIC
   ) %>%
@@ -206,7 +239,7 @@ fact <- dplyr::tbl(con,
     DALL_5YR_BAND
   ) %>%
   summarise(
-    TOTAL_QTY = sum(ITEM_CALC_PAY_QTY, na.rm = T),
+    TOTAL_QTY = sum(TOTAL_QTY, na.rm = T),
     ITEM_COUNT = sum(ITEM_COUNT, na.rm = T),
     ITEM_PAY_DR_NIC = sum(ITEM_PAY_DR_NIC, na.rm = T),
     .groups = "drop"
@@ -222,7 +255,7 @@ if (exists) {
 }
 
 #build table
-fact %>%
+query %>%
   compute("HRT_FACT_DIM", analyze = FALSE, temporary = FALSE)
 
 }
