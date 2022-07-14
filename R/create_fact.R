@@ -145,7 +145,8 @@ fact <- dplyr::tbl(con,
     PDS_GENDER,
     ITEM_CALC_PAY_QTY,
     ITEM_COUNT,
-    ITEM_PAY_DR_NIC
+    ITEM_PAY_DR_NIC,
+    EPS_PART_DATE
   ) %>%
   group_by(
     YEAR_MONTH,
@@ -156,7 +157,8 @@ fact <- dplyr::tbl(con,
     PATIENT_LSOA_CODE,
     PATIENT_ID,
     PATIENT_IDENTIFIED,
-    PDS_GENDER
+    PDS_GENDER,
+    EPS_PART_DATE
   ) %>%
   summarise(
     TOTAL_QTY = sum(ITEM_CALC_PAY_QTY, na.rm = T),
@@ -181,7 +183,7 @@ query <- fact %>%
   #pull forward last observation of PATIENT_LSOA_CODE to account for null data
   mutate(
     PATIENT_LSOA_CODE = sql(
-      "last_value(PATIENT_LSOA_CODE ignore nulls) over (partition by PATIENT_ID order by YEAR_MONTH, PATIENT_LSOA_CODE NULLS last rows between unbounded preceding and current row)"
+      "last_value(PATIENT_LSOA_CODE ignore nulls) over (partition by PATIENT_ID order by YEAR_MONTH, EPS_PART_DATE, PATIENT_LSOA_CODE NULLS last rows between unbounded preceding and current row)"
     )
   ) %>%
   left_join(imd,

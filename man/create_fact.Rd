@@ -6,7 +6,7 @@
 \usage{
 create_fact(
   con,
-  from = 2015L,
+  from = 201504L,
   to = dplyr::sql("MGMT.PKG_PUBLIC_DWH_FUNCTIONS.f_get_latest_period('EPACT2')")
 )
 }
