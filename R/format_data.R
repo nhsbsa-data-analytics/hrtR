@@ -43,36 +43,36 @@ format_data <- function(workbook,
                         column,
                         alignment,
                         number_format) {
-  
-  
+
+
   #convert column(s) to numeric values
   column_number <- excel_column_to_numeric(column)
-  
+
   #name workbook
   wb <- workbook
-  
+
   #get full data
   data1 <- openxlsx::read.xlsx(wb, sheetname)
-  
+
   #identify first non na value in 3rd column
-  non_na <- which(!is.na(data1[3]))[1]  
-  
+  non_na <- which(!is.na(data1[2]))[1]
+
   #get full data minus title/notes
   data2 <- data1 %>%
     slice(non_na:nrow(data1))
-  
+
   #calculate starting row of data
   first_row <- as.numeric(nrow(data1) - nrow(data2) + 2)
-  
+
   #calculate end row
   last_row <- as.numeric(nrow(data1)) + 1
-  
+
   #create style for column header
   header_style <- openxlsx::createStyle(
     textDecoration = "bold",
     halign = alignment
   )
-  
+
   #add style to header
   openxlsx::addStyle(
     wb,
@@ -82,13 +82,13 @@ format_data <- function(workbook,
     column_number,
     gridExpand = TRUE
   )
-  
+
   #create style for data
   style <- openxlsx::createStyle(
     halign = alignment,
     numFmt = number_format
   )
-  
+
   #add style to data
   openxlsx::addStyle(
     wb,

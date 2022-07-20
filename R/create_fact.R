@@ -7,7 +7,7 @@
 #'
 #' @param con The database connection object to be used
 #' @param from The first month you wish to collect data from (defaults to 201504)
-#' @param to The last month you wish to collect data from (defaults to maxium month in DWH)
+#' @param to The last month you wish to collect data from (defaults to maximum month in DWH)
 #'
 #' @import dplyr
 #' @import dbplyr
