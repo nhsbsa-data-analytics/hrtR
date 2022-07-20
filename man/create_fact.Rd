@@ -15,7 +15,7 @@ create_fact(
 
 \item{from}{The first month you wish to collect data from (defaults to 201504)}
 
-\item{to}{The last month you wish to collect data from (defaults to maxium month in DWH)}
+\item{to}{The last month you wish to collect data from (defaults to maximum month in DWH)}
 }
 \description{
 Build 'HRT_FACT_DIM' in personal schema
