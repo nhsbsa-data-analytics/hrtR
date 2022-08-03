@@ -18,8 +18,6 @@
 #'
 #' @example
 #' create_fact(con)
-
-
 create_fact <- function(
   con,
   from = 201504L,
@@ -148,7 +146,11 @@ fact <- dplyr::tbl(con,
     ITEM_CALC_PAY_QTY,
     ITEM_COUNT,
     ITEM_PAY_DR_NIC,
-    EPS_PART_DATE
+    EPS_PART_DATE,
+    PFEA_CHARGE_STATUS,
+    CHARGE_STATUS,
+    PFEA_EXEMPT_CAT,
+    EXEMPT_CAT
   ) %>%
   group_by(
     YEAR_MONTH,
@@ -160,7 +162,11 @@ fact <- dplyr::tbl(con,
     PATIENT_ID,
     PATIENT_IDENTIFIED,
     PDS_GENDER,
-    EPS_PART_DATE
+    EPS_PART_DATE,
+    PFEA_CHARGE_STATUS,
+    CHARGE_STATUS,
+    PFEA_EXEMPT_CAT,
+    EXEMPT_CAT
   ) %>%
   summarise(
     TOTAL_QTY = sum(ITEM_CALC_PAY_QTY, na.rm = T),
@@ -214,6 +220,10 @@ query <- fact %>%
     IMD_RANK,
     PDS_GENDER,
     DALL_5YR_BAND,
+    PFEA_CHARGE_STATUS,
+    CHARGE_STATUS,
+    PFEA_EXEMPT_CAT,
+    EXEMPT_CAT,
     TOTAL_QTY,
     ITEM_COUNT,
     ITEM_PAY_DR_NIC
@@ -248,7 +258,11 @@ query <- fact %>%
     IMD_DECILE,
     IMD_RANK,
     PDS_GENDER,
-    DALL_5YR_BAND
+    DALL_5YR_BAND,
+    PFEA_CHARGE_STATUS,
+    CHARGE_STATUS,
+    PFEA_EXEMPT_CAT,
+    EXEMPT_CAT
   ) %>%
   summarise(
     TOTAL_QTY = sum(TOTAL_QTY, na.rm = T),
