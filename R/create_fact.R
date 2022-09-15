@@ -150,7 +150,9 @@ fact <- dplyr::tbl(con,
     PFEA_CHARGE_STATUS,
     CHARGE_STATUS,
     PFEA_EXEMPT_CAT,
-    EXEMPT_CAT
+    EXEMPT_CAT,
+    ITEM_SSP_FEES,
+    ITEM_SSP_VAT_VALUE
   ) %>%
   group_by(
     YEAR_MONTH,
@@ -166,7 +168,9 @@ fact <- dplyr::tbl(con,
     PFEA_CHARGE_STATUS,
     CHARGE_STATUS,
     PFEA_EXEMPT_CAT,
-    EXEMPT_CAT
+    EXEMPT_CAT,
+    ITEM_SSP_FEES,
+    ITEM_SSP_VAT_VALUE
   ) %>%
   summarise(
     TOTAL_QTY = sum(ITEM_CALC_PAY_QTY, na.rm = T),
@@ -226,7 +230,9 @@ query <- fact %>%
     EXEMPT_CAT,
     TOTAL_QTY,
     ITEM_COUNT,
-    ITEM_PAY_DR_NIC
+    ITEM_PAY_DR_NIC,
+    ITEM_SSP_FEES,
+    ITEM_SSP_VAT_VALUE
   ) %>%
   mutate(
     PDS_GENDER = case_when(PDS_GENDER == 1 ~ "M",
@@ -262,7 +268,9 @@ query <- fact %>%
     PFEA_CHARGE_STATUS,
     CHARGE_STATUS,
     PFEA_EXEMPT_CAT,
-    EXEMPT_CAT
+    EXEMPT_CAT,
+    ITEM_SSP_FEES,
+    ITEM_SSP_VAT_VALUE
   ) %>%
   summarise(
     TOTAL_QTY = sum(TOTAL_QTY, na.rm = T),
