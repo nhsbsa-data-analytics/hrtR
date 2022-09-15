@@ -58,8 +58,7 @@ paragraph_extract <- function(con,
                      SECTION_CODE,
                      PARAGRAPH_CODE,
                      desc(PATIENT_IDENTIFIED)) %>%
-      collect() %>%
-      filter(FINANCIAL_YEAR <= ltst_year)
+      collect()
   } else {
     fact <- dplyr::tbl(con,
                        from = table) %>%

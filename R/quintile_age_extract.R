@@ -65,8 +65,7 @@ quintile_age_extract <- function(con,
                      AGE_BAND,
                      IMD_QUINTILE,
                      desc(PATIENT_IDENTIFIED)) %>%
-      collect() %>%
-      filter(FINANCIAL_YEAR <= ltst_year)
+      collect()
   } else {
     fact <- dplyr::tbl(con,
                        from = table) %>%

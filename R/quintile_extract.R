@@ -58,8 +58,7 @@ quintile_extract <- function(con,
       dplyr::arrange(FINANCIAL_YEAR,
                      IMD_QUINTILE,
                      desc(PATIENT_IDENTIFIED)) %>%
-      collect() %>%
-      filter(FINANCIAL_YEAR <= ltst_year)
+      collect()
   } else {
     fact <- dplyr::tbl(con,
                        from = table) %>%

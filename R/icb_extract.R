@@ -69,8 +69,7 @@ icb_extract <- function(con,
         STP_NAME,
         desc(PATIENT_IDENTIFIED)
       ) %>%
-      select(-REGION_CODE_ORDER, -STP_NAME_ORDER) %>%
-      filter(FINANCIAL_YEAR <= ltst_year)
+      select(-REGION_CODE_ORDER, -STP_NAME_ORDER)
   } else {
     fact <- dplyr::tbl(con,
                        from = table) %>%

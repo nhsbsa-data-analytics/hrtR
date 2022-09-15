@@ -43,7 +43,6 @@ presentation_extract <- function(con,
         .groups = "drop"
       ) %>%
       collect() %>%
-      filter(FINANCIAL_YEAR <= ltst_year) %>%
       dplyr::arrange(FINANCIAL_YEAR,
                      SECTION_CODE,
                      PARAGRAPH_CODE,

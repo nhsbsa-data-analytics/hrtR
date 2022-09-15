@@ -56,8 +56,7 @@ exemption_extract <- function(con,
                      PFEA_EXEMPT_CAT,
                      EXEMPT_CAT,
                      desc(PATIENT_IDENTIFIED)) %>%
-      collect() %>%
-      filter(FINANCIAL_YEAR <= ltst_year)
+      collect()
   } else {
     fact <- dplyr::tbl(src = con,
                        from = table) %>%

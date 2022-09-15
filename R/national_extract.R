@@ -45,8 +45,7 @@ national_extract <- function(con,
       ) %>%
       dplyr::arrange(FINANCIAL_YEAR,
                      desc(PATIENT_IDENTIFIED)) %>%
-      collect() %>%
-      filter(FINANCIAL_YEAR <= ltst_year)
+      collect()
   }
   else {
     fact <- dplyr::tbl(con,

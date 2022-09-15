@@ -66,8 +66,7 @@ chem_sub_extract <- function(con,
         CHEM_SUB_CODE,
         desc(PATIENT_IDENTIFIED)
       ) %>%
-      collect() %>%
-      filter(FINANCIAL_YEAR <= ltst_year)
+      collect()
   } else {
     fact <- dplyr::tbl(con,
                        from = table) %>%
