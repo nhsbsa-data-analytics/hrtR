@@ -22,7 +22,6 @@ pi_extract_excel <- function(con,
   if (time_frame == "FY") {
     fact <- dplyr::tbl(con,
                        from = table) %>%
-      filter(FINANCIAL_YEAR <= ltst_year) %>%
       dplyr::group_by(FINANCIAL_YEAR,
                       PATIENT_IDENTIFIED) %>%
       dplyr::summarise(ITEM_COUNT = sum(ITEM_COUNT, na.rm = T),
