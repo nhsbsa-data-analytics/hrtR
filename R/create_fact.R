@@ -133,7 +133,7 @@ fact <- dplyr::tbl(con,
     # excludes LDP dummy forms
     PRESC_TYPE_PRNT %NOT IN% c(8L, 54L)
   ) %>%
-  select(
+select(
     YEAR_MONTH,
     PRESC_TYPE_PRNT,
     PRESC_ID_PRNT,
@@ -143,6 +143,7 @@ fact <- dplyr::tbl(con,
     PATIENT_ID,
     PATIENT_IDENTIFIED,
     PDS_GENDER,
+    PDS_DOB,
     ITEM_CALC_PAY_QTY,
     ITEM_COUNT,
     ITEM_PAY_DR_NIC,
@@ -150,7 +151,9 @@ fact <- dplyr::tbl(con,
     PFEA_CHARGE_STATUS,
     CHARGE_STATUS,
     PFEA_EXEMPT_CAT,
-    EXEMPT_CAT
+    EXEMPT_CAT,
+    ITEM_SSP_FEES,
+    ITEM_SSP_VAT_VALUE
   ) %>%
   group_by(
     YEAR_MONTH,
@@ -162,11 +165,14 @@ fact <- dplyr::tbl(con,
     PATIENT_ID,
     PATIENT_IDENTIFIED,
     PDS_GENDER,
+    PDS_DOB,
     EPS_PART_DATE,
     PFEA_CHARGE_STATUS,
     CHARGE_STATUS,
     PFEA_EXEMPT_CAT,
-    EXEMPT_CAT
+    EXEMPT_CAT,
+    ITEM_SSP_FEES,
+    ITEM_SSP_VAT_VALUE
   ) %>%
   summarise(
     TOTAL_QTY = sum(ITEM_CALC_PAY_QTY, na.rm = T),
@@ -178,6 +184,10 @@ fact <- dplyr::tbl(con,
 query <- fact %>%
   inner_join(tdim,
              by = c("YEAR_MONTH" = "YEAR_MONTH")) %>%
+  #	calculate age of patient using PDS_DOB at 30th Sept of given year
+  mutate(CALC_AGE= sql("nvl(trunc((to_number(substr(financial_year,1,4)||'0930') - to_number(to_char(pds_dob,'YYYYMMDD')))/10000),-1)")) %>%
+  # create identified flag using pds
+  mutate(PATIENT_IDENTIFIED = sql("case when	pds_dob	is	null	and	pds_gender	=	0	then	'N'	else	'Y'	end")) %>%
   inner_join(porg,
              by = c("PRESC_TYPE_PRNT" = "LVL_5_OUPDT",
                     "PRESC_ID_PRNT" = "LVL_5_OU")) %>%
@@ -226,7 +236,9 @@ query <- fact %>%
     EXEMPT_CAT,
     TOTAL_QTY,
     ITEM_COUNT,
-    ITEM_PAY_DR_NIC
+    ITEM_PAY_DR_NIC,
+    ITEM_SSP_FEES,
+    ITEM_SSP_VAT_VALUE
   ) %>%
   mutate(
     PDS_GENDER = case_when(PDS_GENDER == 1 ~ "M",
@@ -262,7 +274,9 @@ query <- fact %>%
     PFEA_CHARGE_STATUS,
     CHARGE_STATUS,
     PFEA_EXEMPT_CAT,
-    EXEMPT_CAT
+    EXEMPT_CAT,
+    ITEM_SSP_FEES,
+    ITEM_SSP_VAT_VALUE
   ) %>%
   summarise(
     TOTAL_QTY = sum(TOTAL_QTY, na.rm = T),
