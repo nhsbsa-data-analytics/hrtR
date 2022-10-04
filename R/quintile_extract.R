@@ -36,7 +36,7 @@ quintile_extract <- function(con,
       ) %>%
       dplyr::group_by(FINANCIAL_YEAR,
                       PATIENT_ID,
-                      PATIENT_IDENTIFIED,
+                      #PATIENT_IDENTIFIED,
                       PATIENT_COUNT,
                       IMD_QUINTILE) %>%
       dplyr::summarise(
@@ -47,7 +47,7 @@ quintile_extract <- function(con,
 
     table <- fact %>%
       dplyr::group_by(FINANCIAL_YEAR,
-                      PATIENT_IDENTIFIED,
+                      #PATIENT_IDENTIFIED,
                       IMD_QUINTILE) %>%
       dplyr::summarise(
         PATIENT_COUNT = sum(PATIENT_COUNT, na.rm = T),
@@ -56,8 +56,7 @@ quintile_extract <- function(con,
         .groups = "drop"
       ) %>%
       dplyr::arrange(FINANCIAL_YEAR,
-                     IMD_QUINTILE,
-                     desc(PATIENT_IDENTIFIED)) %>%
+                     IMD_QUINTILE) %>%
       collect()
   } else {
     fact <- dplyr::tbl(con,
@@ -78,7 +77,7 @@ quintile_extract <- function(con,
         FINANCIAL_YEAR,
         YEAR_MONTH,
         PATIENT_ID,
-        PATIENT_IDENTIFIED,
+        #PATIENT_IDENTIFIED,
         PATIENT_COUNT,
         IMD_QUINTILE
       ) %>%
@@ -91,7 +90,7 @@ quintile_extract <- function(con,
     table <- fact %>%
       dplyr::group_by(FINANCIAL_YEAR,
                       YEAR_MONTH,
-                      PATIENT_IDENTIFIED,
+                      #PATIENT_IDENTIFIED,
                       IMD_QUINTILE) %>%
       dplyr::summarise(
         PATIENT_COUNT = sum(PATIENT_COUNT, na.rm = T),
@@ -101,8 +100,7 @@ quintile_extract <- function(con,
       ) %>%
       dplyr::arrange(FINANCIAL_YEAR,
                      YEAR_MONTH,
-                     IMD_QUINTILE,
-                     desc(PATIENT_IDENTIFIED)) %>%
+                     IMD_QUINTILE) %>%
       collect()
   }
   return(table)

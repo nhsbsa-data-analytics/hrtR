@@ -37,7 +37,7 @@ quintile_age_extract <- function(con,
       dplyr::group_by(
         FINANCIAL_YEAR,
         PATIENT_ID,
-        PATIENT_IDENTIFIED,
+        #PATIENT_IDENTIFIED,
         PATIENT_COUNT,
         DALL_5YR_BAND,
         IMD_QUINTILE
@@ -52,7 +52,7 @@ quintile_age_extract <- function(con,
       dplyr::mutate(AGE_BAND = dplyr::case_when(is.na(DALL_5YR_BAND) ~ "Unknown",
                                                 TRUE ~ DALL_5YR_BAND)) %>%
       dplyr::group_by(FINANCIAL_YEAR,
-                      PATIENT_IDENTIFIED,
+                      #PATIENT_IDENTIFIED,
                       AGE_BAND,
                       IMD_QUINTILE) %>%
       dplyr::summarise(
@@ -63,8 +63,7 @@ quintile_age_extract <- function(con,
       ) %>%
       dplyr::arrange(FINANCIAL_YEAR,
                      AGE_BAND,
-                     IMD_QUINTILE,
-                     desc(PATIENT_IDENTIFIED)) %>%
+                     IMD_QUINTILE) %>%
       collect()
   } else {
     fact <- dplyr::tbl(con,
@@ -85,7 +84,7 @@ quintile_age_extract <- function(con,
         FINANCIAL_YEAR,
         YEAR_MONTH,
         PATIENT_ID,
-        PATIENT_IDENTIFIED,
+        #PATIENT_IDENTIFIED,
         PATIENT_COUNT,
         DALL_5YR_BAND,
         IMD_QUINTILE
@@ -101,7 +100,7 @@ quintile_age_extract <- function(con,
                                                 TRUE ~ DALL_5YR_BAND)) %>%
       dplyr::group_by(FINANCIAL_YEAR,
                       YEAR_MONTH,
-                      PATIENT_IDENTIFIED,
+                      #PATIENT_IDENTIFIED,
                       AGE_BAND,
                       IMD_QUINTILE) %>%
       dplyr::summarise(
@@ -113,8 +112,7 @@ quintile_age_extract <- function(con,
       dplyr::arrange(FINANCIAL_YEAR,
                      YEAR_MONTH,
                      AGE_BAND,
-                     IMD_QUINTILE,
-                     desc(PATIENT_IDENTIFIED)) %>%
+                     IMD_QUINTILE) %>%
       collect()
   }
 
