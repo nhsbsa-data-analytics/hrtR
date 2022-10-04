@@ -58,7 +58,7 @@ icb_extract <- function(con,
       mutate(
         REGION_CODE_ORDER = case_when(REGION_CODE == "-" ~ 2,
                                       TRUE ~ 1),
-        STP_NAME_ORDER = case_when(STP_NAME == "UNKNOWN STP" ~ 2,
+        STP_NAME_ORDER = case_when(STP_NAME == "UNKNOWN ICB" ~ 2,
                                    TRUE ~ 1)
       ) %>%
       dplyr::arrange(
@@ -111,7 +111,7 @@ icb_extract <- function(con,
       mutate(
         REGION_CODE_ORDER = case_when(REGION_CODE == "-" ~ 2,
                                       TRUE ~ 1),
-        STP_NAME_ORDER = case_when(STP_NAME == "UNKNOWN STP" ~ 2,
+        STP_NAME_ORDER = case_when(STP_NAME == "UNKNOWN ICB" ~ 2,
                                    TRUE ~ 1)
       ) %>%
       dplyr::arrange(
