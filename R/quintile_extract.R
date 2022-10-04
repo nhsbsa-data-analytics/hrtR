@@ -22,6 +22,7 @@ quintile_extract <- function(con,
   if (time_frame == "FY") {
     fact <- dplyr::tbl(con,
                        from = table) %>%
+      filter(PATIENT_IDENTIFIED == "Y") %>%
       dplyr::mutate(
         PATIENT_COUNT = case_when(PATIENT_IDENTIFIED == "Y" ~ 1,
                                   TRUE ~ 0),
@@ -61,6 +62,7 @@ quintile_extract <- function(con,
   } else {
     fact <- dplyr::tbl(con,
                        from = table) %>%
+      filter(PATIENT_IDENTIFIED == "Y") %>%
       dplyr::mutate(
         PATIENT_COUNT = case_when(PATIENT_IDENTIFIED == "Y" ~ 1,
                                   TRUE ~ 0),

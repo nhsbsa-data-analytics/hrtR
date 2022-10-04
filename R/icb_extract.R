@@ -28,8 +28,6 @@ icb_extract <- function(con,
         FINANCIAL_YEAR,
         PATIENT_ID,
         PATIENT_IDENTIFIED,
-        REGION_NAME,
-        REGION_CODE,
         STP_NAME,
         STP_CODE,
         PATIENT_COUNT
@@ -42,8 +40,6 @@ icb_extract <- function(con,
     fact_stp <- fact %>%
       dplyr::group_by(
         FINANCIAL_YEAR,
-        REGION_NAME,
-        REGION_CODE,
         STP_NAME,
         STP_CODE,
         PATIENT_IDENTIFIED
@@ -56,20 +52,16 @@ icb_extract <- function(con,
       ) %>%
       collect() %>%
       mutate(
-        REGION_CODE_ORDER = case_when(REGION_CODE == "-" ~ 2,
-                                      TRUE ~ 1),
         STP_NAME_ORDER = case_when(STP_NAME == "UNKNOWN ICB" ~ 2,
                                    TRUE ~ 1)
       ) %>%
       dplyr::arrange(
         FINANCIAL_YEAR,
-        REGION_CODE_ORDER,
-        REGION_CODE,
         STP_NAME_ORDER,
         STP_NAME,
         desc(PATIENT_IDENTIFIED)
       ) %>%
-      select(-REGION_CODE_ORDER, -STP_NAME_ORDER)
+      select(-STP_NAME_ORDER)
   } else {
     fact <- dplyr::tbl(con,
                        from = table) %>%
@@ -80,8 +72,6 @@ icb_extract <- function(con,
         YEAR_MONTH,
         PATIENT_ID,
         PATIENT_IDENTIFIED,
-        REGION_NAME,
-        REGION_CODE,
         STP_NAME,
         STP_CODE,
         PATIENT_COUNT
@@ -95,8 +85,6 @@ icb_extract <- function(con,
       dplyr::group_by(
         FINANCIAL_YEAR,
         YEAR_MONTH,
-        REGION_NAME,
-        REGION_CODE,
         STP_NAME,
         STP_CODE,
         PATIENT_IDENTIFIED
@@ -109,21 +97,17 @@ icb_extract <- function(con,
       ) %>%
       collect() %>%
       mutate(
-        REGION_CODE_ORDER = case_when(REGION_CODE == "-" ~ 2,
-                                      TRUE ~ 1),
         STP_NAME_ORDER = case_when(STP_NAME == "UNKNOWN ICB" ~ 2,
                                    TRUE ~ 1)
       ) %>%
       dplyr::arrange(
         FINANCIAL_YEAR,
         YEAR_MONTH,
-        REGION_CODE_ORDER,
-        REGION_CODE,
         STP_NAME_ORDER,
         STP_NAME,
         desc(PATIENT_IDENTIFIED)
       ) %>%
-      select(-REGION_CODE_ORDER, -STP_NAME_ORDER)
+      select(-STP_NAME_ORDER)
   }
 
   return(fact_stp)
