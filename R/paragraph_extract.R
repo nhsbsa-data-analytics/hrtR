@@ -32,10 +32,10 @@ paragraph_extract <- function(con,
         FINANCIAL_YEAR,
         IDENTIFIED_PATIENT_ID,
         PATIENT_IDENTIFIED,
-        SECTION_NAME,
-        SECTION_CODE,
-        PARAGRAPH_NAME,
-        PARAGRAPH_CODE,
+        SECTION_DESCR,
+        BNF_SECTION,
+        PARAGRAPH_DESCR,
+        BNF_PARAGRAPH,
         PATIENT_COUNT
       ) %>%
       dplyr::summarise(
@@ -47,10 +47,10 @@ paragraph_extract <- function(con,
     fact_paragraph <- fact %>%
       dplyr::group_by(
         FINANCIAL_YEAR,
-        SECTION_NAME,
-        SECTION_CODE,
-        PARAGRAPH_NAME,
-        PARAGRAPH_CODE,
+        SECTION_DESCR,
+        BNF_SECTION,
+        PARAGRAPH_DESCR,
+        BNF_PARAGRAPH,
         PATIENT_IDENTIFIED
       ) %>%
       dplyr::summarise(
@@ -60,8 +60,8 @@ paragraph_extract <- function(con,
         .groups = "drop"
       ) %>%
       dplyr::arrange(FINANCIAL_YEAR,
-                     SECTION_CODE,
-                     PARAGRAPH_CODE,
+                     BNF_SECTION,
+                     BNF_PARAGRAPH,
                      desc(PATIENT_IDENTIFIED)) %>%
       collect()
   } else {
@@ -74,10 +74,10 @@ paragraph_extract <- function(con,
         YEAR_MONTH,
         IDENTIFIED_PATIENT_ID,
         PATIENT_IDENTIFIED,
-        SECTION_NAME,
-        SECTION_CODE,
-        PARAGRAPH_NAME,
-        PARAGRAPH_CODE,
+        SECTION_DESCR,
+        BNF_SECTION,
+        PARAGRAPH_DESCR,
+        BNF_PARAGRAPH,
         PATIENT_COUNT
       ) %>%
       dplyr::summarise(
@@ -90,10 +90,10 @@ paragraph_extract <- function(con,
       dplyr::group_by(
         FINANCIAL_YEAR,
         YEAR_MONTH,
-        SECTION_NAME,
-        SECTION_CODE,
-        PARAGRAPH_NAME,
-        PARAGRAPH_CODE,
+        SECTION_DESCR,
+        BNF_SECTION,
+        PARAGRAPH_DESCR,
+        BNF_PARAGRAPH,
         PATIENT_IDENTIFIED
       ) %>%
       dplyr::summarise(
@@ -105,8 +105,8 @@ paragraph_extract <- function(con,
       dplyr::arrange(
         FINANCIAL_YEAR,
         YEAR_MONTH,
-        SECTION_CODE,
-        PARAGRAPH_CODE,
+        BNF_SECTION,
+        BNF_PARAGRAPH,
         desc(PATIENT_IDENTIFIED)
       ) %>%
       collect()

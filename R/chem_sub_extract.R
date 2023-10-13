@@ -32,12 +32,12 @@ chem_sub_extract <- function(con,
         FINANCIAL_YEAR,
         IDENTIFIED_PATIENT_ID,
         PATIENT_IDENTIFIED,
-        SECTION_NAME,
-        SECTION_CODE,
-        PARAGRAPH_NAME,
-        PARAGRAPH_CODE,
-        CHEM_SUB_NAME,
-        CHEM_SUB_CODE,
+        SECTION_DESCR,
+        BNF_SECTION,
+        PARAGRAPH_DESCR,
+        BNF_PARAGRAPH,
+        CHEMICAL_SUBSTANCE_DESCR,
+        BNF_CHEMICAL_SUBSTANCE,
         PATIENT_COUNT
       ) %>%
       dplyr::summarise(
@@ -49,12 +49,11 @@ chem_sub_extract <- function(con,
     fact_paragraph <- fact %>%
       dplyr::group_by(
         FINANCIAL_YEAR,
-        SECTION_NAME,
-        SECTION_CODE,
-        PARAGRAPH_NAME,
-        PARAGRAPH_CODE,
-        CHEM_SUB_NAME,
-        CHEM_SUB_CODE,
+        BNF_SECTION,
+        PARAGRAPH_DESCR,
+        BNF_PARAGRAPH,
+        CHEMICAL_SUBSTANCE_DESCR,
+        BNF_CHEMICAL_SUBSTANCE,
         PATIENT_IDENTIFIED
       ) %>%
       dplyr::summarise(
@@ -65,9 +64,9 @@ chem_sub_extract <- function(con,
       ) %>%
       dplyr::arrange(
         FINANCIAL_YEAR,
-        SECTION_CODE,
-        PARAGRAPH_CODE,
-        CHEM_SUB_CODE,
+        BNF_SECTION,
+        BNF_PARAGRAPH,
+        BNF_CHEMICAL_SUBSTANCE,
         desc(PATIENT_IDENTIFIED)
       ) %>%
       collect()
@@ -81,12 +80,12 @@ chem_sub_extract <- function(con,
         YEAR_MONTH,
         IDENTIFIED_PATIENT_ID,
         PATIENT_IDENTIFIED,
-        SECTION_NAME,
-        SECTION_CODE,
-        PARAGRAPH_NAME,
-        PARAGRAPH_CODE,
-        CHEM_SUB_NAME,
-        CHEM_SUB_CODE,
+        SECTION_DESCR,
+        BNF_SECTION,
+        PARAGRAPH_DESCR,
+        BNF_PARAGRAPH,
+        CHEMICAL_SUBSTANCE_DESCR,
+        BNF_CHEMICAL_SUBSTANCE,
         PATIENT_COUNT
       ) %>%
       dplyr::summarise(
@@ -99,12 +98,12 @@ chem_sub_extract <- function(con,
       dplyr::group_by(
         FINANCIAL_YEAR,
         YEAR_MONTH,
-        SECTION_NAME,
-        SECTION_CODE,
-        PARAGRAPH_NAME,
-        PARAGRAPH_CODE,
-        CHEM_SUB_NAME,
-        CHEM_SUB_CODE,
+        SECTION_DESCR,
+        BNF_SECTION,
+        PARAGRAPH_DESCR,
+        BNF_PARAGRAPH,
+        CHEMICAL_SUBSTANCE_DESCR,
+        BNF_CHEMICAL_SUBSTANCE,
         PATIENT_IDENTIFIED
       ) %>%
       dplyr::summarise(
@@ -116,9 +115,9 @@ chem_sub_extract <- function(con,
       dplyr::arrange(
         FINANCIAL_YEAR,
         YEAR_MONTH,
-        SECTION_CODE,
-        PARAGRAPH_CODE,
-        CHEM_SUB_CODE,
+        BNF_SECTION,
+        BNF_PARAGRAPH,
+        BNF_CHEMICAL_SUBSTANCE,
         desc(PATIENT_IDENTIFIED)
       ) %>%
       collect()

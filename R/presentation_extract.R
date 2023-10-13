@@ -29,16 +29,16 @@ presentation_extract <- function(con,
                 dbplyr::in_schema(schema, table)) %>%
       dplyr::group_by(
         FINANCIAL_YEAR,
-        SECTION_NAME,
-        SECTION_CODE,
-        PARAGRAPH_NAME,
-        PARAGRAPH_CODE,
-        CHEM_SUB_NAME,
-        CHEM_SUB_CODE,
-        BNF_CODE,
-        BNF_NAME,
+        SECTION_DESCR,
+        BNF_SECTION,
+        PARAGRAPH_DESCR,
+        BNF_PARAGRAPH,
+        CHEMICAL_SUBSTANCE_DESCR,
+        BNF_CHEMICAL_SUBSTANCE,
+        PRESENTATION_BNF,
+        PRESENTATION_BNF_DESCR,
         GENERIC_BNF_CODE,
-        GENENRIC_BNF_NAME,
+        GEN_PRESENTATION_BNF_DESCR,
         UNIT_OF_MEASURE
       ) %>%
       dplyr::summarise(
@@ -49,26 +49,26 @@ presentation_extract <- function(con,
       ) %>%
       collect() %>%
       dplyr::arrange(FINANCIAL_YEAR,
-                     SECTION_CODE,
-                     PARAGRAPH_CODE,
-                     CHEM_SUB_CODE,
-                     BNF_CODE)
+                     BNF_SECTION,
+                     BNF_PARAGRAPH,
+                     BNF_CHEMICAL_SUBSTANCE,
+                     PRESENTATION_BNF)
   } else {
     fact <- tbl(src = con,
                 dbplyr::in_schema(schema, table)) %>%
       dplyr::group_by(
         FINANCIAL_YEAR,
         YEAR_MONTH,
-        SECTION_NAME,
-        SECTION_CODE,
-        PARAGRAPH_NAME,
-        PARAGRAPH_CODE,
-        CHEM_SUB_NAME,
-        CHEM_SUB_CODE,
-        BNF_CODE,
-        BNF_NAME,
+        SECTION_DESCR,
+        BNF_SECTION,
+        PARAGRAPH_DESCR,
+        BNF_PARAGRAPH,
+        CHEMICAL_SUBSTANCE_DESCR,
+        BNF_CHEMICAL_SUBSTANCE,
+        PRESENTATION_BNF,
+        PRESENTATION_BNF_DESCR,
         GENERIC_BNF_CODE,
-        GENENRIC_BNF_NAME,
+        GEN_PRESENTATION_BNF_DESCR,
         UNIT_OF_MEASURE
       ) %>%
       dplyr::summarise(
@@ -81,10 +81,10 @@ presentation_extract <- function(con,
       dplyr::arrange(
         FINANCIAL_YEAR,
         YEAR_MONTH,
-        SECTION_CODE,
-        PARAGRAPH_CODE,
-        CHEM_SUB_CODE,
-        BNF_CODE
+        BNF_SECTION,
+        BNF_PARAGRAPH,
+        BNF_CHEMICAL_SUBSTANCE,
+        PRESENTATION_BNF
       )
   }
 

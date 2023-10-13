@@ -28,8 +28,8 @@ pi_extract <- function(con,
                  dbplyr::in_schema(schema, table)) %>%
       dplyr::group_by(
         FINANCIAL_YEAR,
-        `BNF paragraph name` = PARAGRAPH_NAME,
-        `BNF paragraph code` = PARAGRAPH_CODE,
+        `BNF paragraph name` = PARAGRAPH_DESCR,
+        `BNF paragraph code` = BNF_PARAGRAPH,
         PATIENT_IDENTIFIED
       ) %>%
       dplyr::summarise(ITEM_COUNT = sum(ITEM_COUNT, na.rm = T),
@@ -53,8 +53,8 @@ pi_extract <- function(con,
                 dbplyr::in_schema(schema, table)) %>%
       dplyr::group_by(
         YEAR_MONTH,
-        `BNF paragraph name` = PARAGRAPH_NAME,
-        `BNF paragraph code` = PARAGRAPH_CODE,
+        `BNF paragraph name` = PARAGRAPH_DESCR,
+        `BNF paragraph code` = BNF_PARAGRAPH,
         PATIENT_IDENTIFIED
       ) %>%
       dplyr::summarise(ITEM_COUNT = sum(ITEM_COUNT, na.rm = T),

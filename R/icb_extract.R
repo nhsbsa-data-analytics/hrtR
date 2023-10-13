@@ -33,8 +33,8 @@ icb_extract <- function(con,
         FINANCIAL_YEAR,
        IDENTIFIED_PATIENT_ID,
         PATIENT_IDENTIFIED,
-        STP_NAME,
-        STP_CODE,
+        ICB_NAME,
+        ICB_CODE,
         PATIENT_COUNT
       ) %>%
       dplyr::summarise(
@@ -45,8 +45,8 @@ icb_extract <- function(con,
     fact_stp <- fact %>%
       dplyr::group_by(
         FINANCIAL_YEAR,
-        STP_NAME,
-        STP_CODE,
+        ICB_NAME,
+        ICB_CODE,
         PATIENT_IDENTIFIED
       ) %>%
       dplyr::summarise(
@@ -57,16 +57,16 @@ icb_extract <- function(con,
       ) %>%
       collect() %>%
       mutate(
-        STP_NAME_ORDER = case_when(STP_NAME == "UNKNOWN ICB" ~ 2,
+        ICB_NAME_ORDER = case_when(ICB_NAME == "UNKNOWN ICB" ~ 2,
                                    TRUE ~ 1)
       ) %>%
       dplyr::arrange(
         FINANCIAL_YEAR,
-        STP_NAME_ORDER,
-        STP_NAME,
+        ICB_NAME_ORDER,
+        ICB_NAME,
         desc(PATIENT_IDENTIFIED)
       ) %>%
-      select(-STP_NAME_ORDER)
+      select(-ICB_NAME_ORDER)
   } else {
     fact <- tbl(src = con,
                 dbplyr::in_schema(schema, table)) %>%
@@ -77,8 +77,8 @@ icb_extract <- function(con,
         YEAR_MONTH,
        IDENTIFIED_PATIENT_ID,
         PATIENT_IDENTIFIED,
-        STP_NAME,
-        STP_CODE,
+        ICB_NAME,
+        ICB_CODE,
         PATIENT_COUNT
       ) %>%
       dplyr::summarise(
@@ -90,8 +90,8 @@ icb_extract <- function(con,
       dplyr::group_by(
         FINANCIAL_YEAR,
         YEAR_MONTH,
-        STP_NAME,
-        STP_CODE,
+        ICB_NAME,
+        ICB_CODE,
         PATIENT_IDENTIFIED
       ) %>%
       dplyr::summarise(
@@ -102,17 +102,17 @@ icb_extract <- function(con,
       ) %>%
       collect() %>%
       mutate(
-        STP_NAME_ORDER = case_when(STP_NAME == "UNKNOWN ICB" ~ 2,
+        ICB_NAME_ORDER = case_when(ICB_NAME == "UNKNOWN ICB" ~ 2,
                                    TRUE ~ 1)
       ) %>%
       dplyr::arrange(
         FINANCIAL_YEAR,
         YEAR_MONTH,
-        STP_NAME_ORDER,
-        STP_NAME,
+        ICB_NAME_ORDER,
+        ICB_NAME,
         desc(PATIENT_IDENTIFIED)
       ) %>%
-      select(-STP_NAME_ORDER)
+      select(-ICB_NAME_ORDER)
   }
 
   return(fact_stp)
