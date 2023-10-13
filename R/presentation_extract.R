@@ -6,22 +6,27 @@
 #' Extract presentation level table from HRT fact table
 #'
 #' @param con The database connection object to be used
-#' @param table The fact table name to extract data from (defaults to HRT_FACT_DIM)
+#' @param schema The scheme name to extract data from
+#' @param table The fact table name to extract data from
 #' @param time_frame "FY"/"Monthly" - the time frame you which to summarise to
 #'
 #' @export
 #'
 #' @example
-#' presentation_extract(con, time_frame = "FY")
+#' presentation_extract(ccon,
+#' schema = "GRALI",
+#' table = "HRT_FACT_202310", time_frame = "FY")
+
 
 presentation_extract <- function(con,
-                                 table = "HRT_FACT_DIM",
+                                 schema,
+                                 table,
                                  time_frame = c("FY", "Monthly")) {
   time_frame <- match.arg(time_frame)
 
   if (time_frame == "FY") {
-    fact <- dplyr::tbl(con,
-                       from = "HRT_FACT_DIM") %>%
+    fact <- tbl(src = con,
+                dbplyr::in_schema(schema, table)) %>%
       dplyr::group_by(
         FINANCIAL_YEAR,
         SECTION_NAME,
@@ -49,8 +54,8 @@ presentation_extract <- function(con,
                      CHEM_SUB_CODE,
                      BNF_CODE)
   } else {
-    fact <- dplyr::tbl(con,
-                       from = "HRT_FACT_DIM") %>%
+    fact <- tbl(src = con,
+                dbplyr::in_schema(schema, table)) %>%
       dplyr::group_by(
         FINANCIAL_YEAR,
         YEAR_MONTH,

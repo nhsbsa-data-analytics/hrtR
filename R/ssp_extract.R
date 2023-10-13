@@ -6,22 +6,26 @@
 #' Extract presentation level table from HRT fact table for meds which have been claimed under SPP
 #'
 #' @param con The database connection object to be used
-#' @param table The fact table name to extract data from (defaults to HRT_FACT_DIM)
+#' @param schema The scheme name to extract data from
+#' @param table The fact table name to extract data from
 #' @param time_frame "FY"/"Monthly" - the time frame you which to summarise to
 #'
 #' @export
 #'
 #' @example
-#' ssp_extract(con, time_frame = "FY")
+#' ssp_extract(con,
+#' schema = "GRALI",
+#' table = "HRT_FACT_202310", time_frame = "FY")
 
 ssp_extract <- function(con,
-                                 table = "HRT_FACT_DIM",
+                        schema,
+                        table,
                                  time_frame = c("FY", "Monthly")) {
   time_frame <- match.arg(time_frame)
-  
+
   if (time_frame == "FY") {
-    fact <- dplyr::tbl(con,
-                       from = "HRT_FACT_DIM") %>%
+    fact <- tbl(src = con,
+                dbplyr::in_schema(schema, table)) %>%
       mutate(
         ITEM_SSP_FEES = case_when(
           is.na(ITEM_SSP_FEES) ~ 0,
@@ -62,8 +66,8 @@ ssp_extract <- function(con,
                      CHEM_SUB_CODE,
                      BNF_CODE)
   } else {
-    fact <- dplyr::tbl(con,
-                       from = "HRT_FACT_DIM") %>%
+    fact <- tbl(src = con,
+                dbplyr::in_schema(schema, table)) %>%
       mutate(
         ITEM_SSP_FEES = case_when(
           is.na(ITEM_SSP_FEES) ~ 0,
@@ -108,7 +112,7 @@ ssp_extract <- function(con,
         BNF_CODE
       )
   }
-  
+
   return(fact)
-  
+
 }
