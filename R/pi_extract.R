@@ -24,7 +24,11 @@ pi_extract <- function(con,
   time_frame <- match.arg(time_frame)
 
   if (time_frame == "FY") {
+<<<<<<< HEAD
     fact <- tbl(src = con,
+=======
+    fact <- dtbl(src = con,
+>>>>>>> 5482c1849d1161b509ea0dc39fb21098bf7a4230
                  dbplyr::in_schema(schema, table)) %>%
       dplyr::group_by(
         FINANCIAL_YEAR,
