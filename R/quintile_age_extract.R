@@ -45,7 +45,7 @@ quintile_age_extract <- function(con,
         IDENTIFIED_PATIENT_ID,
         #PATIENT_IDENTIFIED,
         PATIENT_COUNT,
-        DALL_5YR_BAND,
+        CALC_AGE,
         IMD_QUINTILE
       ) %>%
       dplyr::summarise(
@@ -100,7 +100,7 @@ quintile_age_extract <- function(con,
         IDENTIFIED_PATIENT_ID,
         #PATIENT_IDENTIFIED,
         PATIENT_COUNT,
-        DALL_5YR_BAND,
+        CALC_AGE,
         IMD_QUINTILE
       ) %>%
       dplyr::summarise(

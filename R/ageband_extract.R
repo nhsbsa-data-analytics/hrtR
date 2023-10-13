@@ -17,10 +17,10 @@
 #' schema = "GRALI",
 #' table = "HRT_FACT_202310", time_frame = "FY")
 
-ageband_extract <- function(con,
-                            schema,
-                            table,
-                            time_frame = c("FY", "Monthly")) {
+ageband_extract_test <- function(con,
+                                 schema,
+                                 table,
+                                 time_frame = c("FY", "Monthly")) {
   time_frame <- match.arg(time_frame)
 
   if (time_frame == "FY") {
@@ -31,7 +31,7 @@ ageband_extract <- function(con,
       dplyr::group_by(FINANCIAL_YEAR,
                       IDENTIFIED_PATIENT_ID,
                       PATIENT_IDENTIFIED,
-                      DALL_5YR_BAND,
+                      CALC_AGE,
                       PATIENT_COUNT) %>%
       dplyr::summarise(
         ITEM_COUNT = sum(ITEM_COUNT, na.rm = T),
@@ -71,7 +71,7 @@ ageband_extract <- function(con,
         YEAR_MONTH,
         IDENTIFIED_PATIENT_ID,
         PATIENT_IDENTIFIED,
-        DALL_5YR_BAND,
+        CALC_AGE,
         PATIENT_COUNT
       ) %>%
       dplyr::summarise(

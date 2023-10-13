@@ -51,7 +51,7 @@ ssp_extract <- function(con,
         PRESENTATION_BNF_DESCR,
         GENERIC_BNF_CODE,
         GEN_PRESENTATION_BNF_DESCR,
-        UNIT_OF_MEASURE
+        VMPP_UOM
       ) %>%
       dplyr::summarise(
         TOTAL_QTY = sum(TOTAL_QTY, na.rm = T),
@@ -94,7 +94,7 @@ ssp_extract <- function(con,
         PRESENTATION_BNF_DESCR,
         GENERIC_BNF_CODE,
         GEN_PRESENTATION_BNF_DESCR,
-        UNIT_OF_MEASURE
+        VMPP_UOM
       ) %>%
       dplyr::summarise(
         TOTAL_QTY = sum(TOTAL_QTY, na.rm = T),
