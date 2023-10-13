@@ -17,7 +17,7 @@
 #' schema = "GRALI",
 #' table = "HRT_FACT_202310", time_frame = "FY")
 
-ageband_extract_test <- function(con,
+ageband_extract <- function(con,
                                  schema,
                                  table,
                                  time_frame = c("FY", "Monthly")) {
