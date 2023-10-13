@@ -6,22 +6,26 @@
 #' Extract patient identification rate wide table from HRT fact table
 #'
 #' @param con The database connection object to be used
-#' @param table The fact table name to extract data from (defaults to HRT_FACT_DIM)
+#' @param schema The scheme name to extract data from
+#' @param table The fact table name to extract data from
 #' @param time_frame "FY"/"Monthly" - the time frame you which to summarise to
 #'
 #' @export
 #'
 #' @example
-#' pi_extract(con, time_frame = "FY")
+#' pi_extract(con = con,
+#' schema = "GRALI",
+#' table = "HRT_FACT_202310", time_frame = "FY")
 
 pi_extract <- function(con,
-                       table = "HRT_FACT_DIM",
+                       schema,
+                       table,
                        time_frame = c("FY", "Monthly")) {
   time_frame <- match.arg(time_frame)
 
   if (time_frame == "FY") {
-    fact <- dplyr::tbl(con,
-                       from = table) %>%
+    fact <- dtbl(src = con,
+                 dbplyr::in_schema(schema, table)) %>%
       dplyr::group_by(
         FINANCIAL_YEAR,
         `BNF paragraph name` = PARAGRAPH_NAME,
@@ -45,8 +49,8 @@ pi_extract <- function(con,
       dplyr::arrange(`BNF paragraph code`)
   }
   else{
-    fact <- dplyr::tbl(con,
-                       from = table) %>%
+    fact <- tbl(src = con,
+                dbplyr::in_schema(schema, table)) %>%
       dplyr::group_by(
         YEAR_MONTH,
         `BNF paragraph name` = PARAGRAPH_NAME,
