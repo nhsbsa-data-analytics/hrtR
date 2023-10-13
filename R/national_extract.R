@@ -7,7 +7,7 @@
 #'
 #' @param con The database connection object to be used
 #' @param schema The scheme name to extract data from
-#' @param table The fact table name to extract data from (defaults to HRT_FACT_DIM)
+#' @param table The fact table name to extract data from
 #' @param time_frame "FY"/"Monthly" - the time frame you which to summarise to
 #'
 #' @export
@@ -16,6 +16,8 @@
 #'  national_extract(con = con,
 #' schema = "GRALI",
 #' table = "HRT_FACT_202310", time_frame = "FY")
+
+
 
 national_extract <- function(con,
                              schema,
@@ -29,7 +31,7 @@ national_extract <- function(con,
       dplyr::mutate(PATIENT_COUNT = case_when(PATIENT_IDENTIFIED == "Y" ~ 1,
                                               TRUE ~ 0)) %>%
       dplyr::group_by(FINANCIAL_YEAR,
-                      PATIENT_ID,
+                      IDENTIFIED_PATIENT_ID,
                       PATIENT_IDENTIFIED,
                       PATIENT_COUNT) %>%
       dplyr::summarise(
@@ -58,7 +60,7 @@ national_extract <- function(con,
                                               TRUE ~ 0)) %>%
       dplyr::group_by(FINANCIAL_YEAR,
                       YEAR_MONTH,
-                      PATIENT_ID,
+                      IDENTIFIED_PATIENT_ID,
                       PATIENT_IDENTIFIED,
                       PATIENT_COUNT) %>%
       dplyr::summarise(
