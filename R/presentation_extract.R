@@ -42,7 +42,7 @@ presentation_extract <- function(con,
         VMPP_UOM
       ) %>%
       dplyr::summarise(
-        TOTAL_QTY = sum(TOTAL_QTY, na.rm = T),
+        TOTAL_QTY = sum(ITEM_CALC_PAY_QTY, na.rm = T),
         ITEM_COUNT = sum(ITEM_COUNT, na.rm = T),
         ITEM_PAY_DR_NIC = sum(ITEM_PAY_DR_NIC, na.rm = T) / 100,
         .groups = "drop"
@@ -72,7 +72,7 @@ presentation_extract <- function(con,
         VMPP_UOM
       ) %>%
       dplyr::summarise(
-        TOTAL_QTY = sum(TOTAL_QTY, na.rm = T),
+        TOTAL_QTY = sum(ITEM_CALC_PAY_QTY, na.rm = T),
         ITEM_COUNT = sum(ITEM_COUNT, na.rm = T),
         ITEM_PAY_DR_NIC = sum(ITEM_PAY_DR_NIC, na.rm = T) / 100,
         .groups = "drop"
