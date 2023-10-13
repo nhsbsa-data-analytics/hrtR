@@ -39,6 +39,13 @@ ageband_extract <- function(con,
       )
 
     fact_age <- fact %>%
+      dplyr::inner_join(
+        dplyr::tbl(con,
+                   from = dbplyr::in_schema("DIM", "AGE_DIM")),
+        by = c(
+          "CALC_AGE" = "AGE"
+        )
+      ) %>%
       dplyr::mutate(AGE_BAND = dplyr::case_when(is.na(DALL_5YR_BAND) ~ "Unknown",
                                                 TRUE ~ DALL_5YR_BAND)) %>%
       dplyr::group_by(FINANCIAL_YEAR,
@@ -73,6 +80,13 @@ ageband_extract <- function(con,
       )
 
     fact_age <- fact %>%
+      dplyr::inner_join(
+        dplyr::tbl(con,
+                   from = dbplyr::in_schema("DIM", "AGE_DIM")),
+        by = c(
+          "CALC_AGE" = "AGE"
+        )
+      ) %>%
       dplyr::mutate(AGE_BAND = dplyr::case_when(is.na(DALL_5YR_BAND) ~ "Unknown",
                                                 TRUE ~ DALL_5YR_BAND)) %>%
       dplyr::group_by(FINANCIAL_YEAR,

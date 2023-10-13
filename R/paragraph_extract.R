@@ -65,8 +65,8 @@ paragraph_extract <- function(con,
                      desc(PATIENT_IDENTIFIED)) %>%
       collect()
   } else {
-    fact <- dplyr::tbl(con,
-                       from = table) %>%
+    fact <- tbl(src = con,
+                dbplyr::in_schema(schema, table)) %>%
       dplyr::mutate(PATIENT_COUNT = case_when(PATIENT_IDENTIFIED == "Y" ~ 1,
                                               TRUE ~ 0)) %>%
       dplyr::group_by(

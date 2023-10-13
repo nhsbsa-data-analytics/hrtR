@@ -36,7 +36,7 @@ chem_sub_extract <- function(con,
         BNF_SECTION,
         PARAGRAPH_DESCR,
         BNF_PARAGRAPH,
-        CHEMICAL_SUBSTANCE_DESCR,
+        CHEMICAL_SUBSTANCE_BNF_DESCR,
         BNF_CHEMICAL_SUBSTANCE,
         PATIENT_COUNT
       ) %>%
@@ -52,7 +52,7 @@ chem_sub_extract <- function(con,
         BNF_SECTION,
         PARAGRAPH_DESCR,
         BNF_PARAGRAPH,
-        CHEMICAL_SUBSTANCE_DESCR,
+        CHEMICAL_SUBSTANCE_BNF_DESCR,
         BNF_CHEMICAL_SUBSTANCE,
         PATIENT_IDENTIFIED
       ) %>%
@@ -84,7 +84,7 @@ chem_sub_extract <- function(con,
         BNF_SECTION,
         PARAGRAPH_DESCR,
         BNF_PARAGRAPH,
-        CHEMICAL_SUBSTANCE_DESCR,
+        CHEMICAL_SUBSTANCE_BNF_DESCR,
         BNF_CHEMICAL_SUBSTANCE,
         PATIENT_COUNT
       ) %>%
@@ -102,7 +102,7 @@ chem_sub_extract <- function(con,
         BNF_SECTION,
         PARAGRAPH_DESCR,
         BNF_PARAGRAPH,
-        CHEMICAL_SUBSTANCE_DESCR,
+        CHEMICAL_SUBSTANCE_BNF_DESCR,
         BNF_CHEMICAL_SUBSTANCE,
         PATIENT_IDENTIFIED
       ) %>%
