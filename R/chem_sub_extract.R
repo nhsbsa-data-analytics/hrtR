@@ -49,6 +49,7 @@ chem_sub_extract <- function(con,
     fact_paragraph <- fact %>%
       dplyr::group_by(
         FINANCIAL_YEAR,
+        SECTION_DESCR,
         BNF_SECTION,
         PARAGRAPH_DESCR,
         BNF_PARAGRAPH,
