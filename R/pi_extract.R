@@ -41,7 +41,7 @@ pi_extract <- function(con,
       mutate(
         RATE = Y / (Y + N) * 100,
         `BNF paragraph code` = factor(`BNF paragraph code`,
-                                      levels = c("060401", "070201"))
+                                      levels = c("060401", "070201", "070302","060403"))
       ) %>%
       dplyr::select(-Y, -N) %>%
       tidyr::pivot_wider(names_from = FINANCIAL_YEAR,
