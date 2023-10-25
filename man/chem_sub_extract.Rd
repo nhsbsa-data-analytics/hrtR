@@ -4,12 +4,14 @@
 \alias{chem_sub_extract}
 \title{Easy helper for 'chem_sub_extract'}
 \usage{
-chem_sub_extract(con, table = "HRT_FACT_DIM", time_frame = c("FY", "Monthly"))
+chem_sub_extract(con, schema, table, time_frame = c("FY", "Monthly"))
 }
 \arguments{
 \item{con}{The database connection object to be used}
 
-\item{table}{The fact table name to extract data from (defaults to HRT_FACT_DIM)}
+\item{schema}{The scheme name to extract data from}
+
+\item{table}{The fact table name to extract data from}
 
 \item{time_frame}{"FY"/"Monthly" - the time frame you which to summarise to}
 }
