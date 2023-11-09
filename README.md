@@ -24,15 +24,6 @@ You will also need to create a [PAT key](https://docs.github.com/en/authenticati
 
 You can view the [source code for the HRT RAP](https://github.com/nhsbsa-data-analytics/Prescribing-for-Diabetes) on GitHub.
 
-## Running this RAP
-
-Users outside of the Official Statistics team may not have the required access permissions to run all parts of this RAP. The following information is included to document how this pipeline is run by members of the Official Statistics team during production.
-
-Once the repository has been cloned, open the `pipeline.R` file and run the script from start to finish. You will be prompted to enter your username and password to connect to the data warehouse. All other code in this script should require no other manual intervention.
-
-The code should handle installing and loading any required packages and external data. It should then get data extracts from the fact table, perform data manipulations, then save this data into spreadsheet outputs. The pipeline will then render the statistical summary narrative and background document as HTML files for use in web publishing.
-
-Publication details such as financial year and publication date can be manually changed in the `config.yml` file if this pipeline is rerun in future. Running the pipeline for a different time period may require users to change some function arguments, such as the fact table to extract data from.
 
 ## Functions guide
 
@@ -57,4 +48,4 @@ Contributions are not currently being accepted for this RAP. If this changes, a 
 
 # License
 
-The `Prescribing-for-Diabetes` RAP, including associated documentation, is released under the MIT license. Details can be found in the `LICENSE` file.
+The `hrtR` package, including associated documentation, is released under the MIT license. Details can be found in the `LICENSE` file.
