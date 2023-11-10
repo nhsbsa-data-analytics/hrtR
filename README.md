@@ -4,9 +4,11 @@ This code is published as part of the NHSBSA Official Statistics team's commitme
 
 # Introduction
 
-This package contains the code used to be able to tansform data collected by the NHS Business Services Authority for use in the HRT publication series. This package includes a `functions` folder containing several files with functions specific to this publication. 
+This package contains the code used to be able to tansform data collected by the NHS Business Services Authority for use in the Hormone Replacement Therapy (HRT) publication series. This package includes a `functions` folder containing several files with functions specific to this publication. 
 
 Some function, such as `create_fact.R()`, cannot be run in it's entirety by external users. However it should provide information on how the Official Statistics team extract the data from the NHSBSA data warehouse, analyse the data, and produce the outputs released on the NHSBSA website as part of this publication.
+
+The HRT reproducible analytical pipeline (RAP) is owned and maintained by the Official Statistics team, within a seperate repository.
 
 This package is a work in progress and may be replaced as part of updates and improvements for each new release of the HRT publication. The functions in the `functions` folder do not contain unit testing, although we will investigate adding this in future.
 
